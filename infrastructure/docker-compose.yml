@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  axon-server:
+    image: axoniq/axonserver:latest
+    restart: always
+    container_name: axon-server
+    ports:
+      - 8024:8024
+      - 8124:8124
+    networks:
+      - springbankNet
+  mongo-container:
+    image: mongo
+    restart: always
+    container_name: mongo-container
+    ports:
+      - 27017:27017
+    networks:
+      - springbankNet
+    volumes:
+      - mongodb_data_container:/data/db
+  mysql-container:
+   image: mysql
+   restart: always
+   container_name: mysql-container
+   ports:
+     - 3306:3306
+   networks:
+     - springbankNet
+   volumes:
+     - mysql_data_container:/var/lib/mysql
+   environment:
+     MYSQL_ROOT_PASSWORD: springbankRootPsw
+networks:
+  springbankNet:
+volumes:
+  mongodb_data_container:
+  mysql_data_container:
