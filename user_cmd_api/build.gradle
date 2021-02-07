@@ -16,6 +16,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -26,8 +27,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    //axon
-    implementation 'org.axonframework:axon-spring-boot-starter:4.4'
+    implementation 'cqrs.event.sourcing.example:user_core:1.0.5-SNAPSHOT'
 }
 
 test {
