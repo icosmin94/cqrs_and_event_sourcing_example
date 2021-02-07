@@ -9,5 +9,4 @@ public class UserCmdApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserCmdApiApplication.class, args);
     }
-
 }

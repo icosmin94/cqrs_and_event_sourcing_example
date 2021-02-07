@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'java-library'
 }
 
 group = 'cqrs.event.sourcing.example'
@@ -27,7 +28,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    implementation 'cqrs.event.sourcing.example:user_core:1.0.5-SNAPSHOT'
+    implementation 'cqrs.event.sourcing.example:user_core:1.0.11-SNAPSHOT'
 }
 
 test {

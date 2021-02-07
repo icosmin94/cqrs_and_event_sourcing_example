@@ -9,6 +9,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'maven-publish'
+    id 'java-library'
 }
 
 ext {
@@ -34,7 +35,7 @@ dependencyManagement {
 }
 
 group = 'cqrs.event.sourcing.example'
-version = '1.0.5-SNAPSHOT'
+version = '1.0.11-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -54,8 +55,8 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
 
     //axon
-    implementation "org.axonframework:axon-spring-boot-starter:${axonVersion}"
-    implementation "org.axonframework.extensions.mongo:axon-mongo:${axonVersion}"
+    api "org.axonframework:axon-spring-boot-starter:${axonVersion}"
+    api "org.axonframework.extensions.mongo:axon-mongo:${axonVersion}"
 }
 
 test {
