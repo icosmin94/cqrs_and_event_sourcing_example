@@ -28,7 +28,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    implementation project(':user_core')
+    implementation project(":user_core")
 }
 
 test {

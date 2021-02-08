@@ -1,3 +1,3 @@
 rootProject.name = 'user_cmd_api'
-include 'user_core'
-project(':user_core').projectDir = file('./../user_core')
+include ":user_core"
+project(":user_core").setProjectDir(file('../user_core'));

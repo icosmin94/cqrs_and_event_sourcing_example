@@ -32,8 +32,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    //axon
-    implementation "org.axonframework:axon-spring-boot-starter:${axonVersion}"
+    implementation project(":user_core")
 }
 
 test {
