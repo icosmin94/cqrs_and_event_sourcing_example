@@ -1,4 +1,3 @@
 rootProject.name = 'backend-app'
 include 'user_query_api'
-include 'user_core'
 include 'user_cmd_api'

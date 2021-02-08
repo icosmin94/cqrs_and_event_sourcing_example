@@ -6,7 +6,7 @@ buildscript{
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'io.spring.dependency-management'
     id 'java'
     id 'maven-publish'
     id 'java-library'
@@ -35,7 +35,6 @@ dependencyManagement {
 }
 
 group = 'cqrs.event.sourcing.example'
-version = '1.0.11-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -48,8 +47,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
     implementation "org.springframework.boot:spring-boot-starter-security"
 
-    compileOnly 'org.projectlombok:lombok:1.18.8'
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
