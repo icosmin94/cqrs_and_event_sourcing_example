@@ -1,6 +1,5 @@
 package cqrs.event.sourcing.example.user_query_api.handlers;
 
-import com.google.common.base.Preconditions;
 import cqrs.event.sourcing.example.user_query_api.repositories.UserRepository;
 import cqrs.event.sourcing.example.usercore.events.UserRegisteredEvent;
 import cqrs.event.sourcing.example.usercore.events.UserRemovedEvent;

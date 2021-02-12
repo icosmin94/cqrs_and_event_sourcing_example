@@ -23,6 +23,7 @@ public class User {
     private String firstName;
     @NotEmpty(message = "lastName is mandatory")
     private String lastName;
+    @NotEmpty
     @Email(message = "please provide a valid email address")
     private String emailAddress;
     @NotNull(message = "please provide account credentials")
