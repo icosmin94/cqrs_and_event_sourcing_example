@@ -30,7 +30,7 @@ public class AxonConfig {
     private String mongoDatabase;
 
     @Bean
-    public MongoClient mongoClient(){
+    public MongoClient mongoClient() {
         MongoFactory mongoFactory = new MongoFactory();
         MongoSettingsFactory mongoSettingsFactory = new MongoSettingsFactory();
         mongoSettingsFactory.setMongoAddresses(Collections.singletonList(new ServerAddress(mongoHost, mongoPort)));
