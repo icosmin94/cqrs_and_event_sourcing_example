@@ -19,6 +19,16 @@ services:
       - springbankNet
     volumes:
       - mongodb_data_container:/data/db
+  mongo-express-container:
+    image: mongo-express
+    restart: always
+    container_name: mongo-express-container
+    ports:
+      - 10002:8081
+    networks:
+      - springbankNet
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo-container
   mysql-container:
    image: mysql
    restart: always
