@@ -1,20 +1,25 @@
-plugins {
-    id 'org.springframework.boot' version '2.4.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-    id 'java-library'
-}
-
-group = 'cqrs.event.sourcing.example'
-version = '1.0.0-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+buildscript{
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.4.2")
     }
 }
 
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'java-library'
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:2.4.2"
+    }
+}
 repositories {
     mavenCentral()
     mavenLocal()

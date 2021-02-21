@@ -1,1 +1,3 @@
 rootProject.name = 'user_query_api'
+include ":user_core"
+project(":user_core").setProjectDir(file('../user_core'));

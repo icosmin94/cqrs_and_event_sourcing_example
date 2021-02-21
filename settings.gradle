@@ -1,5 +1,5 @@
 rootProject.name = 'backend-app'
+include 'oauth2_server'
 include 'user_query_api'
 include 'user_cmd_api'
 include 'user_core'
-include 'oauth2_server'
