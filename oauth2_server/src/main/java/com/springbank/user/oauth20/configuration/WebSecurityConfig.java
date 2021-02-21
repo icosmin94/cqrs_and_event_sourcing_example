@@ -1,9 +1,7 @@
-package com.springbank.oauth2_server.configuration;
+package com.springbank.user.oauth20.configuration;
 
-import com.springbank.oauth2_server.services.UserService;
-import lombok.RequiredArgsConstructor;
+import com.springbank.user.oauth20.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,34 +18,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserService userService;
+    @Autowired
+    private UserService customDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(12);
     }
 
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    @Bean
-    @Qualifier("authenticationManagerBean")
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring();
+        auth.userDetailsService(customDetailsService).passwordEncoder(encoder());
     }
 
     @Override
@@ -60,12 +44,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring();
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Bean
     public DaoAuthenticationProvider getAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(customDetailsService);
+        authenticationProvider.setPasswordEncoder(encoder());
 
-        return daoAuthenticationProvider;
+        return authenticationProvider;
     }
 }

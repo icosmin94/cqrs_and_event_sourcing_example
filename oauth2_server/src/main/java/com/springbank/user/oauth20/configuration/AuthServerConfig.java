@@ -1,8 +1,8 @@
-package com.springbank.oauth2_server.configuration;
+package com.springbank.user.oauth20.configuration;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,25 +15,45 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
-@RequiredArgsConstructor
-public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapter {
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+    @Value("${security.oauth2.client.client-id}")
+    private String clientId;
+
+    @Value("${security.oauth2.client.client-secret}")
+    private String clientSecret;
+
+    @Value("${security.oauth2.client.signing-key}")
+    private String signingKey;
+
+    @Value("${security.oauth2.client.token-validity-seconds}")
+    private int tokenValidity;
+
+    @Value("${security.oauth2.client.refresh-token-validity-seconds}")
+    private int refreshTokenValidity;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
-    public   AuthenticationManager authenticationManager;
-
-    private final AuthServerProperties authServerProperties;
+    private AuthenticationManager authenticationManager;
 
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+    public JwtAccessTokenConverter tokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(authServerProperties.getSigningKey());
+        converter.setSigningKey(signingKey);
+
         return converter;
     }
 
     @Bean
-    public JwtTokenStore jwtTokenStore(JwtAccessTokenConverter converter) {
-        return new JwtTokenStore(converter);
+    public JwtTokenStore tokenStore() {
+        return new JwtTokenStore(tokenConverter());
+    }
+
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints
+                .authenticationManager(authenticationManager)
+                .tokenStore(tokenStore())
+                .accessTokenConverter(tokenConverter());
     }
 
     @Override
@@ -44,23 +64,14 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpointsConfigurer) {
-        endpointsConfigurer
-                .authenticationManager(authenticationManager)
-                .tokenStore(jwtTokenStore(jwtAccessTokenConverter()))
-                .accessTokenConverter(jwtAccessTokenConverter());
-    }
-
-    @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient(authServerProperties.getClientId())
-                .secret(authServerProperties.getClientSecret())
+        clients
+                .inMemory()
+                .withClient(clientId)
+                .secret(new BCryptPasswordEncoder(12).encode(clientSecret))
                 .scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token")
-                .accessTokenValiditySeconds(authServerProperties.getTokenValidity())
-                .refreshTokenValiditySeconds(authServerProperties.getRefreshTokenValidity());
+                .accessTokenValiditySeconds(tokenValidity)
+                .refreshTokenValiditySeconds(refreshTokenValidity);
     }
-
-
 }
